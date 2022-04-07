@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">cmpt370–9mare</string>
+    <string name="monday">MON</string>
+    <string name="tuesday">TUE</string>
+    <string name="wednesday">WED</string>
+    <string name="thursday">THU</string>
+    <string name="friday">FRI</string>
+    <string name="saturday">SAT</string>
+    <string name="sunday">SUN</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">List of Events</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_create_event">Create Event</string>
+    <string name="add">Add</string>
+    <string name="next_month_calendar">next_month_calendar</string>
+    <string name="title">Title</string>
+    <string name="location">Location</string>
+    <string name="all_day">All-Day</string>
+    <string name="repeat">Repeat</string>
+    <string name="url">URL</string>
+    <string name="notes">Notes</string>
+    <string name="add_new_item">New Event</string>
+    <string name="dot_image">dot_image</string>
+    <string name="nothing">nothing</string>
+    <string name="pick_date">Date</string>
+    <string name="pick_time">Time</string>
+    <string name="button_last_month">description last month</string>
+    <string name="update_button_text">Update</string>
+    <string name="modify_event_title">Modify Event</string>
+    <string name="connecting_word">To</string>
+    <string name="future_events">Future</string>
+    <string name="past_events">Past</string>
+    <string name="forward_button">forward_button</string>
+
+    <!-- AlertDialog Buttons -->
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="search">Search</string>
+    <string name="calendar_app_notification_id" translatable="false">event_channel</string>
+    <string name="calendar_app_notification_channel_name" translatable="true">Event</string>
+    <string name="snooze">Snooze</string>
+    <string name="notification_title">Event Title</string>
+    <string name="event_coming_up">Notice! event coming up</string>
+    <string name="at">at</string>
+    <string name="check_for_conflicts">Check for Conflicts</string>
+    <string name="repeat_description">Every %s For</string>
+    <string name="event_group">Event Group</string>
+    <string name="group">Group</string>
+    <string name="personal">Personal</string>
+    <string name="_1">1</string>
+    <string name="day_s">Day(s)</string>
+</resources>

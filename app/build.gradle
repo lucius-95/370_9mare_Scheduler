@@ -1,0 +1,144 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "ca.nomosnow"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+    }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation 'androidx.navigation:navigation-testing:2.4.1'
+    def room_version = "2.4.2"
+    def androidXTestVersion0 = "1.4.0"
+    def testRunnerVersion = "1.4.0"
+    def testRulesVersion = "1.4.0"
+    def testJunitVersion = "1.1.3"
+    def truthVersion = "1.4.0"
+    def espressoVersion = "3.4.0"
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation 'androidx.test.ext:junit-ktx:1.1.3'
+
+    testImplementation 'junit:junit:4.13.2'
+
+    // Core library
+    androidTestImplementation "androidx.test:core:$androidXTestVersion0"
+    androidTestImplementation "androidx.test:core-ktx:$androidXTestVersion0"
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation "androidx.test:runner:$testRunnerVersion"
+    androidTestImplementation "androidx.test:rules:$testRulesVersion"
+
+    // Assertions
+    androidTestImplementation "androidx.test.ext:junit:$testJunitVersion"
+    androidTestImplementation "androidx.test.ext:truth:$truthVersion"
+
+    // Espresso dependencies
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+//    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+//    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
+
+
+    // The following Espresso dependency can be either "implementation",
+    // or "androidTestImplementation", depending on whether you want the
+    // dependency to appear on your APK’"s compile classpath or the test APK
+    // classpath.
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.test:core-ktx:1.4.0"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+//    androidTestImplementation 'androidx.test:runner:1.4.0'
+//    androidTestImplementation 'androidx.test.r'
+    debugImplementation "androidx.fragment:fragment-testing:1.4.1"
+//
+//    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:3.0.2"
+//    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+//    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+//    androidTestImplementation "com.android.support.test:runner:1.0.2"
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+    // Robolectric environment
+    testImplementation 'org.robolectric:robolectric:4.7.3'
+
+    implementation "androidx.room:room-runtime:2.4.2"
+//    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "com.google.dagger:dagger-compiler:2.41"
+    // optional - RxJava2 support for Room
+//    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    // optional - RxJava3 support for Room
+    implementation "androidx.room:room-rxjava3:$room_version"
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+    // optional - Paging 3 Integration
+    implementation "androidx.room:room-paging:2.5.0-alpha01"
+
+    testImplementation 'org.mockito:mockito-core:4.3.1'
+    androidTestImplementation 'org.mockito:mockito-android:2.24.5'
+    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+    implementation("androidx.hilt:hilt-work:1.0.0")
+    // When using Kotlin.
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    // For Kotlin
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+}

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_create_event_fragment"
+    tools:context=".ui.event.CreateEventFragment">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ca.nomosnow.cmpt370_9mare.ScheduleEventViewModel" />
+
+        <variable
+            name="createEventFragment"
+            type="ca.nomosnow.cmpt370_9mare.ui.event.CreateEventFragment" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/input_box_create_event_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/base_margin"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/cancel_create_event"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()-> createEventFragment.cancelEvent()}"
+                    android:text="@string/cancel"
+                    android:textColor="?attr/colorSecondaryVariant"
+                    android:textStyle="bold"
+                    app:strokeColor="?attr/colorSecondary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/submit_create_event"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()-> createEventFragment.createModifyEvent()}"
+                    android:text="@string/add"
+                    android:textColor="?attr/colorSecondaryVariant"
+                    android:textStyle="bold"
+                    app:strokeColor="?attr/colorSecondary" />
+            </LinearLayout>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/button_create_event_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/base_margin"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/event_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/title"
+                        app:endIconMode="clear_text"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/event_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/location"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/input_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/date_time_create_event_card"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/forth"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/base_margin"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <TextView
+                            android:id="@+id/pick_date_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pick_date"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="@id/inputDate"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/inputDate" />
+
+                        <Button
+                            android:id="@+id/inputDate"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="50dp"
+                            android:onClick="@{()->createEventFragment.showDatePicker()}"
+                            app:layout_constraintBottom_toTopOf="@id/pick_time"
+                            app:layout_constraintStart_toEndOf="@id/pick_date_text"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="2022-02-22" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/all_day"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin"
+
+                            android:checked="false"
+                            android:text="@string/all_day"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@id/inputDate"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/inputDate"
+                            app:layout_constraintTop_toTopOf="@id/inputDate" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/pick_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            app:layout_constraintTop_toBottomOf="@+id/inputDate">
+
+                            <View
+                                android:id="@+id/pick_date_time_separator"
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:layout_marginTop="@dimen/base_margin"
+                                android:background="#c0c0c0"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/pick_time_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pick_time"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="@id/inputTimeFrom"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/inputTimeFrom" />
+
+                            <Button
+                                android:id="@+id/inputTimeFrom"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="50dp"
+                                android:layout_marginTop="@dimen/base_margin"
+                                android:onClick="@{()->createEventFragment.showTimeFromPicker()}"
+                                app:layout_constraintStart_toEndOf="@id/pick_time_text"
+                                app:layout_constraintTop_toBottomOf="@id/pick_date_time_separator"
+                                tools:text="02:04" />
+
+                            <TextView
+                                android:id="@+id/connecting_word"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin"
+                                android:text="@string/connecting_word"
+                                app:layout_constraintBottom_toBottomOf="@id/inputTimeFrom"
+                                app:layout_constraintStart_toEndOf="@id/inputTimeFrom"
+                                app:layout_constraintTop_toTopOf="@id/inputTimeFrom"
+                                tools:text="To" />
+
+                            <Button
+                                android:id="@+id/inputTimeTo"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin"
+                                android:onClick="@{()->createEventFragment.showTimeToPicker()}"
+                                app:layout_constraintStart_toEndOf="@id/connecting_word"
+                                app:layout_constraintTop_toTopOf="@id/inputTimeFrom"
+                                tools:text="04:02" />
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/date_time_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:errorEnabled="true"
+                                app:layout_constraintStart_toStartOf="@id/inputTimeFrom"
+                                app:layout_constraintTop_toBottomOf="@id/inputTimeFrom" />
+
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/conflict_check"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:padding="5dp"
+                                android:text="@string/check_for_conflicts"
+                                android:textSize="20sp"
+                                app:layout_constraintTop_toBottomOf="@id/date_time_layout" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="#c0c0c0"
+                        android:padding="5dp" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/repeat_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:padding="15dp"
+                        android:text="@string/repeat"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:id="@+id/repeat_spinners"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/repeat_description"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/margin"
+                            android:layout_weight="1"
+                            android:padding="5dp"
+                            android:textSize="16sp"
+                            tools:text="Every Month For" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/spRepeatEvery"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.75"
+                            android:labelFor="@id/spRepeatEvery_autocomplete">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/spRepeatEvery_autocomplete"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:dropDownHeight="200dp"
+                                android:inputType="none"
+                                android:text="@string/_1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/spRepetitionInterval"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1.25"
+                            android:labelFor="@id/spRepetitionInterval_autocomplete">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/spRepetitionInterval_autocomplete"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:text="@string/day_s"
+                                tools:text="Month(s)" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="#c0c0c0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/base_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/group_colour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/group_personal" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/group_menu"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/event_group"
+                            android:labelFor="@id/group_menu_autocomplete">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/group_menu_autocomplete"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:text="@string/personal" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="2dp"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:layout_marginEnd="10dp"-->
+            <!--                android:background="#c0c0c0" />-->
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/url_notes_create_event_card"
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@color/red"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/url_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/url"
+                        app:endIconMode="clear_text"
+                        app:errorEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/event_url"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/event_notes_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/notes"
+                        app:endIconMode="clear_text">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/event_notes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+
+                        <Button
+                            android:id="@+id/delete_event"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin"
+                            android:onClick="@{()->createEventFragment.deleteEvent()}"
+                            android:text="@string/delete"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            app:strokeColor="?attr/colorPrimary"
+                            tools:visibility="visible" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

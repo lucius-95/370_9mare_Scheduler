@@ -1,0 +1,13 @@
+<resources>
+    <!--  Dropdown menus  -->
+    <string-array name="event_groups">
+        <item>Personal</item>
+        <item>Work</item>
+        <item>School</item>
+    </string-array>
+    <string-array name="repeat_types">
+        <item>Day(s)</item>
+        <item>Week(s)</item>
+        <item>Month(s)</item>
+    </string-array>
+</resources>

@@ -1,0 +1,146 @@
+# This file is a template, and might need editing before it works on your project.
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Android.gitlab-ci.yml
+
+# Read more about this script on this blog post https://about.gitlab.com/2018/10/24/setting-up-gitlab-ci-for-android-projects/, by Jason Lenny
+# If you are interested in using Android with FastLane for publishing take a look at the Android-Fastlane template.
+
+
+
+image: openjdk:11-jdk
+cache:
+  key: "$CI_JOB_NAME"
+  paths:
+    - ./m2/
+    - ./gradle/wrapper
+    - ./gradle/caches
+
+variables:
+  ANDROID_COMPILE_SDK: "31"
+  ANDROID_BUILD_TOOLS: "32.0.0"
+  ANDROID_COMMAND_LINE_TOOLS: "7583922"
+
+before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
+  - apt-get --quiet update --yes && apt-get -y install sudo
+  - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+  - mkdir -p android-sdk-linux/cmdline-tools
+  - export ANDROID_SDK_ROOT=$PWD/android-sdk-linux
+  - cd android-sdk-linux/cmdline-tools
+  - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_COMMAND_LINE_TOOLS}_latest.zip
+  - unzip android-sdk.zip
+  # - rm android-sdk.zip
+  - mv cmdline-tools version
+  - echo y | version/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null
+  - echo y | version/bin/sdkmanager "platform-tools" >/dev/null
+  - echo y | version/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null
+  - echo y | version/bin/sdkmanager  "ndk-bundle" >/dev/null
+  - export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools/
+  - export PATH=$PATH:$ANDROID_SDK_ROOT/tools/bin/
+  - export PATH=$PATH:$ANDROID_SDK_ROOT/tools/
+  - PATH=$ANDROID_HOME/emulator:$PATH
+  # temporarily disable checking for EPIPE error and use yes to accept all licenses
+  - set +o pipefail
+  - yes | version/bin/sdkmanager --licenses
+  - set -o pipefail
+  - cd ../../
+  - chmod +x ./gradlew
+
+stages:
+  - build
+  - test
+  - quality_assurance
+  - deploy
+
+qa_build:
+  tags:
+    - docker
+  stage: build
+  script:
+    - ./gradlew clean assembleDebug
+  artifacts:
+    paths:
+      - app/build/outputs/
+
+qa_lintDebug:
+  tags:
+    - docker
+  stage: build
+  script:
+    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+
+qa_debugTests:
+  tags:
+    - docker
+  stage: test
+  script:
+    - ./gradlew -Pci --console=plain :app:testDebug
+
+qa_unitTests:
+  tags:
+    - docker
+  stage: test
+  script:
+    - ./gradlew app:test
+  artifacts:
+    name: "reports_${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
+    when: on_failure
+    expire_in: 4 days
+    paths:
+      - app/build/reports/tests/
+    reports:
+      junit: app/build/test-results/testDebugUnitTest/TEST-*.xml
+
+#qa_instrumentation_tests:
+#  tags:
+#    - docker
+#  stage: test
+#  script:
+#    - cd android-sdk-linux/cmdline-tools
+#    - echo y | apt-get install cpu-checker
+#    - egrep -c '(vmx|svm)' /proc/cpuinfo
+#    - echo y | sudo apt-get install qemu-kvm
+#    - grep kvm /etc/group
+#    - sudo adduser $USER kvm
+#    - sudo chown $USER /dev/kvm
+#    - ls -al /dev/kvm
+#    - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+#    - chmod +x android-wait-for-emulator
+#    - echo y | version/bin/sdkmanager --install "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86_64"
+#    - echo y | version/bin/sdkmanager --update
+#    - echo no | version/bin/avdmanager create avd --force --name "pixel_9.0" --device "pixel" --package "system-images;android-${ANDROID_COMPILE_SDK};google_apis_playstore;x86_64" --tag "google_apis_playstore" --abi "x86_64" -n testdevice
+#    - alias generic_9.0='emulator @generic_9.0 -no-boot-anim -netdelay none -no-snapshot -wipe-data -skin 768x1280 &'
+#    - emulator -list-avds
+#    - emulator -avd testdevice -gpu swiftshader_indirect -no-window -no-audio &
+#    - ./android-wait-for-emulator
+#    - adb devices
+#    - adb shell settings put global window_animation_scale 0 &
+#    - adb shell settings put global transition_animation_scale 0 &
+#    - adb shell settings put global animator_duration_scale 0 &
+#    - adb shell input keyevent 82
+#    - cd ../../
+#    - ./gradlew connectedAndroidTest
+#  artifacts:
+#    name: "reports_${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
+#    when: on_failure
+#    expire_in: 4 days
+#    paths:
+#      - app/build/reports/androidTests/connected/
+
+static_analysis:
+  stage: quality_assurance
+  script:
+    - ./gradlew lint
+    - ./gradlew check
+  artifacts:
+    name: "reports_${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
+    when: on_failure
+    expire_in: 4 days
+    paths:
+      - app/build/reports/
+
+
+
